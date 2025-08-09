@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supplier Collaboration App</title>
+    <link rel="stylesheet" href="supplier_collab_app.css">
+
+</head>
+<body>
+
+    <div class="app-container">
+
+        <!-- Login View -->
+        <div id="login-view" class="view active">
+            <div class="form-container">
+                <div class="portal-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><path d="M20 8v6"></path><path d="M23 11h-6"></path></svg>
+                </div>
+                <h1>Portal Login</h1>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="login-email" class="sr-only">Email</label>
+                        <div class="input-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        </div>
+                        <input type="email" id="login-email" placeholder="Email Address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password" class="sr-only">Password</label>
+                        <div class="input-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        </div>
+                        <input type="password" id="login-password" placeholder="Password" required>
+                    </div>
+                    <button type="submit" class="btn">Login</button>
+                    <p id="login-error" class="error-message"></p>
+                </form>
+                <p class="switch-view-text">Don't have an account? <a href="#" id="show-register-link">Register here</a></p>
+            </div>
+        </div>
+
+        <!-- Registration View -->
+        <div id="register-view" class="view">
+            <div class="form-container">
+                <div class="portal-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><path d="M20 8v6"></path><path d="M23 11h-6"></path></svg>
+                </div>
+                <h1>Create Account</h1>
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="register-name" class="sr-only">Full Name / Company Name</label>
+                        <div class="input-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        </div>
+                        <input type="text" id="register-name" placeholder="Full Name / Company Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-email" class="sr-only">Email</label>
+                        <div class="input-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        </div>
+                        <input type="email" id="register-email" placeholder="Email Address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password" class="sr-only">Password</label>
+                        <div class="input-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        </div>
+                        <input type="password" id="register-password" placeholder="Password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="user-role" class="sr-only">I am a:</label>
+                        <select id="user-role" required>
+                            <option value="" disabled selected>Select your role...</option>
+                            <option value="supplier">Supplier</option>
+                            <option value="client">Client</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn">Register</button>
+                    <p id="register-error" class="error-message"></p>
+                    <p id="register-success" class="success-message"></p>
+                </form>
+                <p class="switch-view-text">Already have an account? <a href="#" id="show-login-link">Login here</a></p>
+            </div>
+        </div>
+
+        <!-- Supplier Dashboard View -->
+        <div id="supplier-dashboard-view" class="view">
+            <header class="app-header">
+                <div class="header-main">
+                    <h1>Supplier Collaboration Portal</h1>
+                    <button id="home-btn" class="btn btn-secondary">Home</button>
+                    <button id="reports-btn" class="btn btn-secondary">Reports & Analytics</button>
+                </div>
+                <div class="user-info">
+                    <span>Welcome, <span id="supplier-display-name"></span>!</span>
+                    <button id="supplier-profile-btn" class="btn btn-secondary">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        Profile
+                    </button>
+                    <button id="supplier-logout-btn" class="btn btn-secondary">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                        Logout
+                    </button>
+                </div>
+            </header>
+
+            <div class="dashboard-content">
+                <div id="main-dashboard-layout" class="dashboard-layout">
+                    <!-- Left Panel: PO List -->
+                    <div class="po-list-panel">
+                        <h2>Purchase Orders</h2>
+                        <div class="search-container">
+                            <input type="text" id="po-search-input" placeholder="Search by PO Number...">
+                            <button id="po-search-btn" class="btn">Search</button>
+                        </div>
+                        <div id="po-list" class="po-list-container">
+                            <!-- PO items will be dynamically inserted by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Right Panel: PO Details -->
+                    <div class="po-details-panel">
+                        <p id="po-details-placeholder" class="placeholder-text">Select a Purchase Order to view details.</p>
+                        <div id="po-details-tabs-container" style="display: none;">
+                            <div class="details-tabs">
+                                <button class="details-tab-link active" data-tab="details-content-tab">PO Details</button>
+                                <button class="details-tab-link" data-tab="quality-content-tab">Quality Status</button>
+                                <button class="details-tab-link" data-tab="ai-content-tab">AI Assistant</button>
+                            </div>
+                            <div id="details-content-tab" class="details-tab-content active">
+                                <div id="po-details-content">
+                                    <!-- PO Details will be dynamically inserted by JS -->
+                                </div>
+                            </div>
+                            <div id="quality-content-tab" class="details-tab-content">
+                                <div id="quality-clearance-container">
+                                    <div id="supplier-actions" style="padding: 20px; display: none;">
+                                        <h4>Supplier Actions</h4>
+                                        <p>Use this section to submit documents for quality review.</p>
+                                        <button id="upload-quality-cert-btn" class="btn">Upload Quality Certificate (Simulated)</button>
+                                        <p id="upload-status-message" style="margin-top: 10px; font-style: italic;"></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="ai-content-tab" class="details-tab-content">
+                                <!-- AI Communication Assistant -->
+                                <div class="ai-assistant-card" id="ai-communication-agent">
+                                    <h3>✨ AI Communication Assistant</h3>
+                                    <p>Need to contact the client? Let our AI assistant help you draft a professional message.</p>
+                                    <div class="form-group">
+                                        <label for="communication-topic">What is this message about?</label>
+                                        <select id="communication-topic">
+                                            <option value="Reporting a potential delay">Reporting a potential delay</option>
+                                            <option value="Asking a question about an item">Asking a question about an item</option>
+                                            <option value="Providing a general update">Providing a general update</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="communication-details">Provide brief details (e.g., "Component X is backordered, new delivery date is...")</label>
+                                        <textarea id="communication-details" rows="3" placeholder="Enter key points here..."></textarea>
+                                    </div>
+                                    <button id="generate-message-btn" class="btn">Generate Draft Message</button>
+                                    <div class="form-group" style="margin-top: 15px;">
+                                        <label for="generated-message">Generated Message Draft</label>
+                                        <textarea id="generated-message" rows="6" placeholder="AI-generated message will appear here..."></textarea>
+                                    </div>
+                                    <button id="send-message-btn" class="btn">Send Message (Simulated)</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reporting Module -->
+                <div id="reporting-module" class="reporting-container" style="display: none;">
+                    <h2>Reports & Analytics</h2>
+                    <div class="kpi-cards">
+                        <div class="kpi-card">
+                            <h4>Total POs Processed</h4>
+                            <p id="total-pos-kpi">0</p>
+                        </div>
+                        <div class="kpi-card">
+                            <h4>Avg. Time to Payment</h4>
+                            <p id="avg-time-kpi">0 Days</p>
+                        </div>
+                        <div class="kpi-card">
+                            <h4>On-Time Deliveries</h4>
+                            <p id="on-time-kpi">0%</p>
+                        </div>
+                    </div>
+                    <div class="charts-grid">
+                        <div class="chart-card">
+                            <canvas id="delivery-chart"></canvas>
+                        </div>
+                        <div class="chart-card">
+                            <canvas id="po-value-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Client Dashboard View -->
+        <div id="client-dashboard-view" class="view">
+            <header class="app-header">
+                <div class="header-main">
+                    <h1>Client Administration Portal</h1>
+                    <button id="create-po-btn" class="btn btn-secondary">Create New PO</button>
+                </div>
+                <div class="user-info">
+                    <span>Welcome, <span id="client-display-name"></span>!</span>
+                    <button id="client-profile-btn" class="btn btn-secondary">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        Profile
+                    </button>
+                    <button id="client-logout-btn" class="btn btn-secondary">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                        Logout
+                    </button>
+                </div>
+            </header>
+
+            <div class="dashboard-content">
+                <div class="dashboard-layout">
+                    <!-- Left Panel: PO List for Client -->
+                    <div class="po-list-panel">
+                        <h2>All Purchase Orders</h2>
+                        <div id="client-po-list" class="po-list-container">
+                            <!-- POs will be dynamically inserted here -->
+                        </div>
+                    </div>
+                    <!-- Right Panel: PO Details for Client -->
+                    <div class="po-details-panel">
+                        <div id="client-po-details-content">
+                            <p class="placeholder-text">Select a Purchase Order to view and manage.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Client AI Tools Tabs -->
+                <div id="client-tools-tabs-container" style="margin-top: 20px;">
+                    <div class="details-tabs">
+                        <button class="details-tab-link active" data-client-tab="ai-analyst-tab">AI Performance Analyst</button>
+                        <button class="details-tab-link" data-client-tab="supplier-comparison-tab">Supplier Comparison</button>
+                        <button class="details-tab-link" data-client-tab="ai-rfp-tab">AI RFP Comparison</button>
+                        <button class="details-tab-link" data-client-tab="ai-risk-tab">AI Risk Assessment</button>
+                    </div>
+                    <div id="ai-analyst-tab" class="details-tab-content active">
+                        <!-- AI Supplier Performance Analyst -->
+                        <div id="ai-performance-analyst" class="ai-assistant-card">
+                            <h3>📈 AI Supplier Performance Analyst</h3>
+                            <p>Get an AI-generated summary of a supplier's performance based on historical data.</p>
+                            <div class="form-group">
+                                <label for="supplier-select">Select a Supplier to Analyze</label>
+                                <select id="supplier-select">
+                                    <option value="">-- Choose a Supplier --</option>
+                                </select>
+                            </div>
+                            <button id="analyze-supplier-btn" class="btn">Analyze Performance</button>
+                            <div class="form-group" style="margin-top: 15px;">
+                                <label for="supplier-summary">Performance Summary</label>
+                                <div id="supplier-summary" class="ai-summary-box">
+                                    Select a supplier and click "Analyze" to see the AI-generated summary.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="supplier-comparison-tab" class="details-tab-content">
+                        <!-- Supplier Comparison Tool -->
+                        <div id="supplier-comparison" class="ai-assistant-card">
+                            <h3>📊 Supplier Comparison</h3>
+                            <p>Select two suppliers to compare their performance metrics side-by-side.</p>
+                            <div class="comparison-selector-grid">
+                                <div class="form-group">
+                                    <label for="supplier-1-select">Select Supplier 1</label>
+                                    <select id="supplier-1-select">
+                                        <option value="">-- Choose Supplier --</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="supplier-2-select">Select Supplier 2</label>
+                                    <select id="supplier-2-select">
+                                        <option value="">-- Choose Supplier --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button id="compare-suppliers-btn" class="btn">Compare Suppliers</button>
+                            <div id="comparison-results" style="margin-top: 20px; display: none;">
+                                <!-- Comparison table will be injected here -->
+                            </div>
+                        </div>
+                    </div>
+                    <div id="ai-rfp-tab" class="details-tab-content">
+                        <!-- AI RFP Comparison Tool -->
+                        <div id="ai-rfp-comparison" class="ai-assistant-card">
+                            <h3>🤖 AI RFP Comparison</h3>
+                            <p>Upload two Request for Proposal (RFP) documents (.txt files) to receive an AI-powered side-by-side comparison.</p>
+                            <div class="comparison-selector-grid">
+                                <div class="form-group">
+                                    <label for="rfp-file-1">RFP Document 1</label>
+                                    <input type="file" id="rfp-file-1" class="form-control-file" accept=".txt">
+                                </div>
+                                <div class="form-group">
+                                    <label for="rfp-file-2">RFP Document 2</label>
+                                    <input type="file" id="rfp-file-2" class="form-control-file" accept=".txt">
+                                </div>
+                            </div>
+                            <button id="compare-rfps-btn" class="btn">Compare RFPs</button>
+                            <div class="form-group" style="margin-top: 15px;">
+                                <label for="rfp-comparison-summary">Comparison Analysis</label>
+                                <div id="rfp-comparison-summary" class="ai-summary-box">
+                                    Upload two RFP files and click "Compare" to see the AI-generated analysis.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="ai-risk-tab" class="details-tab-content">
+                        <!-- AI Risk Assessment Tool -->
+                        <div id="ai-risk-assessment" class="ai-assistant-card">
+                            <h3>🛡️ AI Supplier Risk Assessment</h3>
+                            <p>Select a supplier to get an AI-powered analysis of potential operational, quality, and concentration risks.</p>
+                            <div class="form-group">
+                                <label for="risk-supplier-select">Select a Supplier to Assess</label>
+                                <select id="risk-supplier-select">
+                                    <option value="">-- Choose a Supplier --</option>
+                                </select>
+                            </div>
+                            <button id="assess-risk-btn" class="btn">Assess Potential Risks</button>
+                            <div class="form-group" style="margin-top: 15px;">
+                                <label for="risk-assessment-summary">Risk Assessment Report</label>
+                                <div id="risk-assessment-summary" class="ai-summary-box">
+                                    Select a supplier and click "Assess" to see the AI-generated risk report.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Create New PO Modal -->
+        <div id="create-po-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-create-po-modal-btn close-button">&times;</span>
+                <h2>Create New Purchase Order</h2>
+                <form id="create-po-form">
+                    <div class="form-group">
+                        <label for="po-id">PO Number (Optional)</label>
+                        <input type="text" id="po-id" placeholder="Auto-generate if left blank">
+                    </div>
+                    <div class="form-group">
+                        <label for="po-supplier-email">Supplier Email</label>
+                        <input type="email" id="po-supplier-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="po-order-date">Order Date</label>
+                        <input type="date" id="po-order-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="po-expected-delivery-date">Expected Delivery Date</label>
+                        <input type="date" id="po-expected-delivery-date" required>
+                    </div>
+
+                    <h3>Items</h3>
+                    <div id="po-items-container">
+                        <!-- Dynamic item fields will be added here -->
+                        <div class="po-item-entry">
+                            <div class="form-group">
+                                <label>Item Name</label>
+                                <input type="text" class="po-item-name" placeholder="e.g., Industrial Grade Sensor" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Quantity</label>
+                                <input type="number" class="po-item-quantity" min="1" value="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Unit Price</label>
+                                <input type="number" class="po-item-unit-price" min="0.01" step="0.01" value="0.01" required>
+                            </div>
+                            <button type="button" class="btn btn-danger remove-item-btn">&times; Remove</button>
+                        </div>
+                    </div>
+                    <button type="button" id="add-item-btn" class="btn btn-secondary">+ Add Another Item</button>
+
+                    <button type="submit" class="btn" style="margin-top: 20px;">Create PO</button>
+                    <p id="create-po-error" class="error-message"></p>
+                </form>
+            </div>
+        </div>
+
+        <!-- Profile Edit Modal -->
+        <div id="profile-edit-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-profile-modal-btn close-button">&times;</span>
+                <h2>Edit Profile</h2>
+                <form id="profile-edit-form">
+                    <div class="form-group">
+                        <label for="profile-edit-name">Full Name / Company Name</label>
+                        <input type="text" id="profile-edit-name" required>
+                    </div>
+                    <hr style="margin: 20px 0;">
+                    <h4>Change Password</h4>
+                    <p style="font-size: 0.85em; color: #666; margin-top: -10px; margin-bottom: 15px;">Leave fields blank to keep your current password.</p>
+                    <div class="form-group">
+                        <label for="profile-edit-new-password">New Password</label>
+                        <input type="password" id="profile-edit-new-password">
+                    </div>
+                    <div class="form-group">
+                        <label for="profile-edit-confirm-password">Confirm New Password</label>
+                        <input type="password" id="profile-edit-confirm-password">
+                    </div>
+                    <button type="submit" class="btn">Save Changes</button>
+                </form>
+            </div>
+        </div>
+        <!-- Rejection Reason Modal -->
+        <div id="rejection-reason-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-rejection-modal-btn close-button">&times;</span>
+                <h2>Reason for Rejection</h2>
+                <form id="rejection-reason-form">
+                    <div class="form-group">
+                        <label for="rejection-reason-text">Please provide a reason for rejecting this Purchase Order:</label>
+                        <textarea id="rejection-reason-text" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-danger">Submit Rejection</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Item Tracking Modal -->
+        <div id="item-tracking-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-button">&times;</span>
+                <h2>Tracking Status for <span id="tracking-item-name"></span></h2>
+                <div id="tracking-timeline"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- AI Agent Script -->
+    <script src="dqc_ai_agent.js"></script>
+
+    <!-- Your App's Script -->
+    <script src="supplier_collab_app.js"></script>
+
+    <!-- AI Agent Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- AI AGENT & DETAILS TABS LOGIC ---
+
+            const generateBtn = document.getElementById('generate-message-btn');
+            const sendBtn = document.getElementById('send-message-btn');
+            const poDetailsContent = document.getElementById('po-details-content');
+            const detailsTabsContainer = document.getElementById('po-details-tabs-container');
+            const detailsPlaceholder = document.getElementById('po-details-placeholder');
+
+            // --- Client Dashboard Tab Switching Logic ---
+            const clientToolsTabsContainer = document.getElementById('client-tools-tabs-container');
+            if (clientToolsTabsContainer) {
+                clientToolsTabsContainer.addEventListener('click', (e) => {
+                    if (e.target.matches('.details-tab-link')) {
+                        const tabId = e.target.dataset.clientTab;
+
+                        // Remove active class from all client tool tabs and content
+                        clientToolsTabsContainer.querySelectorAll('.details-tab-link').forEach(t => t.classList.remove('active'));
+                        clientToolsTabsContainer.querySelectorAll('.details-tab-content').forEach(c => c.classList.remove('active'));
+
+                        // Add active class to the clicked tab and its content
+                        e.target.classList.add('active');
+                        document.getElementById(tabId).classList.add('active');
+                    }
+                });
+            }
+
+            // --- Details Tab Switching Logic ---
+            if (detailsTabsContainer) {
+                detailsTabsContainer.addEventListener('click', (e) => {
+                    if (e.target.matches('.details-tab-link')) {
+                        const tabId = e.target.dataset.tab;
+
+                        // Remove active class from all tabs and content
+                        detailsTabsContainer.querySelectorAll('.details-tab-link').forEach(t => t.classList.remove('active'));
+                        detailsTabsContainer.querySelectorAll('.details-tab-content').forEach(c => c.classList.remove('active'));
+
+                        // Add active class to the clicked tab and its content
+                        e.target.classList.add('active');
+                        document.getElementById(tabId).classList.add('active');
+                    }
+                });
+            }
+
+            // --- AI Assistant Button Logic ---
+
+            if (generateBtn) {
+                generateBtn.addEventListener('click', handleGenerateCommunication);
+            }
+            if (sendBtn) {
+                sendBtn.addEventListener('click', () => {
+                    const message = document.getElementById('generated-message').value;
+                    if (message) {
+                        alert('Message sent (simulation). In a real app, this would be sent to the client.');
+                    } else {
+                        alert('Please generate a message first.');
+                    }
+                });
+            }
+
+            // This observer shows the entire details tab container whenever PO details are loaded.
+            // This is a robust way to add functionality without modifying the original supplier_collab_app.js
+            const observer = new MutationObserver((mutationsList) => {
+                for(const mutation of mutationsList) {
+                    if (mutation.type === 'childList') {
+                        if (poDetailsContent.innerHTML.trim() !== '' && !poDetailsContent.querySelector('.placeholder-text')) {
+                            detailsPlaceholder.style.display = 'none';
+                            detailsTabsContainer.style.display = 'block';
+                            // Show supplier actions when details are loaded
+                            const supplierActions = document.getElementById('supplier-actions');
+                            if (supplierActions) {
+                                supplierActions.style.display = 'block';
+                                document.getElementById('upload-status-message').textContent = '';
+                            }
+                        } else {
+                            detailsPlaceholder.style.display = 'block';
+                            detailsTabsContainer.style.display = 'none';
+                            const supplierActions = document.getElementById('supplier-actions');
+                            if (supplierActions) {
+                                supplierActions.style.display = 'none';
+                            }
+                        }
+                        return; // We only need to react once per change
+                    }
+                }
+            });
+
+            if (poDetailsContent) {
+                observer.observe(poDetailsContent, { childList: true, subtree: true });
+            }
+
+            // --- Inter-App Communication Receiver ---
+            window.addEventListener('message', (event) => {
+                const message = event.data;
+
+                if (message && message.type === 'dqcStatusUpdate') {
+                    console.log('Supplier App received status update:', message.payload);
+                    handleDQCStatusUpdate(message.payload);
+                }
+            });
+
+            function handleDQCStatusUpdate(data) {
+                const { productId, status, comments } = data;
+
+                // Find the item row in the currently displayed PO details
+                const itemRow = document.querySelector(`#po-details-content .item-row[data-item-id="${productId}"]`);
+                
+                if (itemRow) {
+                    // Find or create a status element to update. We'll append it to the first cell.
+                    let statusElement = itemRow.querySelector('.quality-status-display');
+                    if (!statusElement) {
+                        statusElement = document.createElement('div');
+                        statusElement.className = 'quality-status-display';
+                        // Assuming the first cell/column exists and is the best place for this info
+                        const firstCell = itemRow.querySelector('td:first-child') || itemRow.children[0];
+                        if(firstCell) firstCell.appendChild(statusElement);
+                    }
+                    
+                    // Apply a class based on the status for styling
+                    statusElement.className = `quality-status-display status-${status}`; // e.g., status-Approved
+                    statusElement.innerHTML = `<strong>Quality Status:</strong> ${status}<br><small><em>${comments || 'No comments provided.'}</em></small>`;
+                    
+                    alert(`Update for item ${productId}: Quality status is now ${status}.`);
+                }
+            }
+
+            // --- Inter-App Communication ---
+            const uploadBtn = document.getElementById('upload-quality-cert-btn');
+            if (uploadBtn) {
+                uploadBtn.addEventListener('click', () => {
+                    // Find the first item in the PO to simulate the upload for it.
+                    const firstItemRow = document.querySelector('#po-details-content .item-row');
+                    if (!firstItemRow || !firstItemRow.dataset.itemId) {
+                        alert('Could not find a specific item in the PO details to act on.');
+                        return;
+                    }
+                    const itemId = firstItemRow.dataset.itemId;
+                    const itemName = firstItemRow.querySelector('td:first-child').textContent;
+
+                    const docData = {
+                        productId: itemId,
+                        docType: 'qualityCertificate',
+                        document: {
+                            name: `Cert_${itemId}_${Date.now()}.pdf`,
+                            user: 'supplier@test.com', // Hardcoded for simulation
+                            timestamp: new Date().toISOString()
+                        }
+                    };
+
+                    // Post message to the parent dashboard window
+                    window.parent.postMessage({ type: 'supplierDocUpload', payload: docData }, '*');
+
+                    document.getElementById('upload-status-message').textContent = `Certificate for ${itemName} sent for review.`;
+                    alert(`Simulated upload for ${itemName}. The Quality Clearance app has been notified.`);
+                });
+            }
+
+            async function handleGenerateCommunication() {
+                const topic = document.getElementById('communication-topic').value;
+                const details = document.getElementById('communication-details').value;
+                const outputTextarea = document.getElementById('generated-message');
+
+                if (!details) {
+                    alert('Please provide some key details for the message.');
+                    return;
+                }
+
+                generateBtn.disabled = true;
+                generateBtn.textContent = 'Generating...';
+                outputTextarea.value = 'AI is drafting a message...';
+
+                const poNumberEl = document.querySelector('#po-details-content h3');
+                const poNumber = poNumberEl ? poNumberEl.textContent.split(' ')[1] : 'the relevant PO';
+
+                const prompt = `You are an AI assistant for a supplier using a collaboration portal. Your task is to draft a professional and clear message to a client.\nThe message is about Purchase Order ${poNumber}.\nThe topic of the message is: "${topic}".\nThe key details provided by the supplier are: "${details}".\n\nBased on this, write a complete, polite, and professional message. Start with a polite greeting (e.g., "Dear Client,"). Clearly state the purpose of the message. Incorporate the key details. End with a professional closing (e.g., "Best regards,"). Do not add any extra commentary or introduction like "Here is the draft:". Just provide the message text itself.`;
+
+                try {
+                    // Use the simulated AI agent from dqc_ai_agent.js
+                    const generatedMessage = await AIAgent._callAIProxy(prompt);
+                    outputTextarea.value = generatedMessage;
+                } catch (error) {
+                    console.error("AI Generation Error:", error);
+                    outputTextarea.value = `An error occurred while communicating with the AI service. Please check the console for details and try again.`;
+                } finally {
+                    generateBtn.disabled = false;
+                    generateBtn.textContent = 'Generate Draft Message';
+                }
+            }
+
+            // --- PROFILE EDIT MODAL LOGIC ---
+            const supplierProfileBtn = document.getElementById('supplier-profile-btn');
+            const clientProfileBtn = document.getElementById('client-profile-btn');
+            const profileModal = document.getElementById('profile-edit-modal');
+            const profileForm = document.getElementById('profile-edit-form');
+            const profileNameInput = document.getElementById('profile-edit-name');
+            const profileNewPasswordInput = document.getElementById('profile-edit-new-password');
+            const profileConfirmPasswordInput = document.getElementById('profile-edit-confirm-password');
+            const closeProfileModalBtn = document.querySelector('.close-profile-modal-btn');
+
+            function openProfileModal() {
+                // This function assumes a global `currentUser` object exists after login,
+                // which is typical in apps using Firebase Auth.
+                // This is a placeholder for the actual implementation in supplier_collab_app.js
+                const currentUserName = document.getElementById('supplier-display-name').textContent || document.getElementById('client-display-name').textContent;
+                profileNameInput.value = currentUserName;
+                profileNewPasswordInput.value = '';
+                profileConfirmPasswordInput.value = '';
+                profileModal.style.display = 'flex'; // Use flex to center it
+            }
+
+            function closeProfileModal() {
+                profileModal.style.display = 'none';
+            }
+
+            async function handleProfileUpdate(e) {
+                e.preventDefault();
+                const newName = profileNameInput.value.trim();
+                const newPassword = profileNewPasswordInput.value;
+                const confirmPassword = profileConfirmPasswordInput.value;
+                let changesMade = false;
+
+                // --- Handle Name Change ---
+                const currentDisplayName = document.getElementById('supplier-display-name').textContent || document.getElementById('client-display-name').textContent;
+                if (newName && newName !== currentDisplayName) {
+                    // In a real app, this is where you would call your Firebase/Firestore update function.
+                    // Example: await updateUserProfileInFirestore(auth.currentUser.uid, { name: newName });
+                    console.log('Simulating profile name update to:', newName);
+
+                    // Update the UI immediately
+                    const supplierNameEl = document.getElementById('supplier-display-name');
+                    const clientNameEl = document.getElementById('client-display-name');
+                    if (supplierNameEl.offsetParent !== null) supplierNameEl.textContent = newName;
+                    if (clientNameEl.offsetParent !== null) clientNameEl.textContent = newName;
+                    changesMade = true;
+                }
+
+                // --- Handle Password Change ---
+                if (newPassword) {
+                    if (newPassword !== confirmPassword) {
+                        alert('New passwords do not match. Please try again.');
+                        return;
+                    }
+                    if (newPassword.length < 6) {
+                        alert('Password should be at least 6 characters long.');
+                        return;
+                    }
+
+                    // In a real app with Firebase, you would do this:
+                    /*
+                    try {
+                        const user = firebase.auth().currentUser;
+                        await user.updatePassword(newPassword);
+                        console.log('Password updated successfully in Firebase.');
+                        changesMade = true;
+                    } catch (error) {
+                        console.error('Firebase password update error:', error);
+                        alert('Error updating password: ' + error.message + '\nYou may need to log out and log back in to perform this action.');
+                        return; // Stop execution
+                    }
+                    */
+                    console.log('Simulating password update.');
+                    changesMade = true;
+                }
+
+                if (changesMade) {
+                    alert('Profile updated successfully! (Simulation)');
+                    closeProfileModal();
+                } else {
+                    closeProfileModal(); // Close even if no changes were made
+                }
+            }
+
+            if (supplierProfileBtn) supplierProfileBtn.addEventListener('click', openProfileModal);
+            if (clientProfileBtn) clientProfileBtn.addEventListener('click', openProfileModal);
+            if (closeProfileModalBtn) closeProfileModalBtn.addEventListener('click', closeProfileModal);
+            if (profileForm) profileForm.addEventListener('submit', handleProfileUpdate);
+        });
+    </script>
+</body>
+
+<!-- Toast Notification Container -->
+<div id="toast-container"></div>
+</html>

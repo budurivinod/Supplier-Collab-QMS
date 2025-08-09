@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Dashboard</title>
+    <style>
+        :root {
+            --primary-color: #005A9C;
+            --secondary-color: #003B65;
+            --light-gray: #f4f4f4;
+            --medium-gray: #ccc;
+            --dark-gray: #333;
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: var(--font-family);
+            margin: 0;
+            background-color: var(--light-gray);
+            color: var(--dark-gray);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden; /* Prevent body scrollbars */
+        }
+
+        .dashboard-header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 30px;
+            box-shadow: var(--box-shadow);
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dashboard-header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        #home-button {
+            position: absolute;
+            top: 15px;
+            left: 30px;
+            z-index: 20;
+            background-color: var(--dark-gray);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.2s;
+            box-shadow: var(--box-shadow);
+        }
+
+        #home-button:hover {
+            background-color: var(--secondary-color);
+        }
+
+        /* App Selection View */
+        #app-selection-view {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            padding: 40px;
+        }
+
+        .app-card-icon {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .app-card-icon svg {
+            width: 48px;
+            height: 48px;
+            stroke-width: 1.5;
+        }
+
+        .app-card {
+            background-color: #fff;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            width: 300px;
+        }
+
+        .app-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .app-card h2 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+
+        .app-card p {
+            color: var(--dark-gray);
+            min-height: 40px;
+        }
+
+        /* App Container View */
+        #app-container-view {
+            flex-grow: 1;
+            position: relative;
+        }
+
+        .tab-pane {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s ease, visibility 0.3s;
+        }
+
+        .tab-pane.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .tab-pane iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Utility Class */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="dashboard-header">
+        <h1>App Dashboard</h1>
+    </header>
+
+    <main id="app-selection-view">
+        <div class="app-card" data-app="dqc-app">
+            <div class="app-card-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                    <path d="m9 12 2 2 4-4"></path>
+                </svg>
+            </div>
+            <h2>Digital Quality Clearance</h2>
+            <p>Manage product clearance, checklists, and approvals.</p>
+        </div>
+        <div class="app-card" data-app="supplier-app">
+            <div class="app-card-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="8.5" cy="7" r="4"></circle>
+                    <path d="M20 8v6"></path>
+                    <path d="M23 11h-6"></path>
+                </svg>
+            </div>
+            <h2>Supplier Collaboration</h2>
+            <p>Collaborate with suppliers on purchase orders and documents.</p>
+        </div>
+    </main>
+
+    <main id="app-container-view" class="hidden">
+        <button id="home-button">← Back to App Selection</button>
+        <div id="dqc-tab" class="tab-pane active">
+            <iframe id="dqc-iframe" src="digital_quality_clearance.html"></iframe>
+        </div>
+        <div id="supplier-tab" class="tab-pane">
+            <iframe id="supplier-iframe" src="supplier_collab_app.html"></iframe>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const dashboardHeader = document.querySelector('.dashboard-header');
+            const appSelectionView = document.getElementById('app-selection-view');
+            const appContainerView = document.getElementById('app-container-view');
+            const homeButton = document.getElementById('home-button');
+            const appCards = document.querySelectorAll('.app-card');
+            const panes = document.querySelectorAll('.tab-pane');
+
+            function showApp(appName) {
+                dashboardHeader.classList.add('hidden');
+                appSelectionView.classList.add('hidden');
+                appContainerView.classList.remove('hidden');
+                homeButton.classList.remove('hidden'); // Show back button when an app is opened
+
+                // Deactivate all panes first
+                panes.forEach(p => p.classList.remove('active'));
+
+                // Activate the correct one
+                if (appName === 'dqc-app') {
+                    document.getElementById('dqc-tab').classList.add('active');
+                } else if (appName === 'supplier-app') {
+                    document.getElementById('supplier-tab').classList.add('active');
+                }
+            }
+
+            function showHome() {
+                dashboardHeader.classList.remove('hidden');
+                appSelectionView.classList.remove('hidden');
+                appContainerView.classList.add('hidden');
+                // Deactivate all panes to reset the view
+                panes.forEach(p => p.classList.remove('active'));
+            }
+
+            appCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const appName = card.dataset.app;
+                    showApp(appName);
+                });
+            });
+
+            homeButton.addEventListener('click', showHome);
+
+            // --- Inter-App Communication Router ---
+            const dqcIframe = document.getElementById('dqc-iframe');
+            const supplierIframe = document.getElementById('supplier-iframe');
+
+            window.addEventListener('message', (event) => {
+                // In a production environment, you should validate event.origin for security.
+                // For local development with file://, the origin is often 'null'.
+                // Example: if (event.origin !== "https://your-app-domain.com") return;
+
+                const message = event.data;
+
+                // Check for a message from the supplier app and forward it to the DQC app.
+                if (message && message.type === 'supplierDocUpload') {
+                    console.log('Dashboard received message from supplier, forwarding to DQC:', message);
+                    if (dqcIframe && dqcIframe.contentWindow) {
+                        // Forward the message to the DQC iframe
+                        dqcIframe.contentWindow.postMessage(message, '*');
+                    }
+                }
+
+                // Check for a message from the DQC app and forward it to the Supplier app.
+                if (message && message.type === 'dqcStatusUpdate') {
+                    console.log('Dashboard received message from DQC, forwarding to Supplier:', message);
+                    if (supplierIframe && supplierIframe.contentWindow) {
+                        // Forward the message to the Supplier iframe
+                        supplierIframe.contentWindow.postMessage(message, '*');
+                    }
+                }
+
+                // Listen for login/logout events from child iframes to control back button visibility
+                if (message && message.type === 'userLoggedIn') {
+                    console.log('Dashboard received login event, hiding back button.');
+                    homeButton.classList.add('hidden');
+                }
+
+                if (message && message.type === 'userLoggedOut') {
+                    console.log('Dashboard received logout event, showing back button.');
+                    homeButton.classList.remove('hidden');
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

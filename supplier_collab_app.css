@@ -1,0 +1,874 @@
+/* --- General App Styling --- */
+:root {
+    --primary-color: #005A9C;
+    --secondary-color: #003B65;
+    --accent-color: #FDB813;
+    --light-gray: #f4f4f4;
+    --medium-gray: #ccc;
+    --dark-gray: #555;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --pending-color: #ffc107;
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --border-radius: 8px;
+    --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Login & Register View Enhancements --- */
+#login-view, #register-view {
+    /* Override .view styles for a cleaner login screen */
+    background: transparent;
+    box-shadow: none;
+}
+
+.portal-icon {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 15px auto;
+    color: var(--primary-color);
+}
+
+.portal-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.form-container h1 {
+    color: var(--secondary-color);
+    margin-bottom: 30px;
+    font-size: 1.8em;
+}
+
+.form-container .form-group {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.form-container .form-group .input-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9cb3c9;
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+}
+
+.form-container .form-group input,
+.form-container .form-group select {
+    padding-left: 50px;
+    height: 52px;
+    border-radius: 8px;
+    border: 1px solid #dbe1e8;
+    background-color: #f9fafb;
+}
+
+.form-container .form-group select {
+    padding-left: 15px; /* No icon for select */
+}
+
+.switch-view-text {
+    margin-top: 30px;
+    font-size: 0.9em;
+    color: #555;
+}
+
+body {
+    font-family: var(--font-family);
+    margin: 0;
+    background-color: var(--light-gray);
+    color: var(--dark-gray);
+}
+
+.app-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.view {
+    display: none;
+    width: 100%;
+    max-width: 1400px;
+    background-color: #fff;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    overflow: hidden;
+}
+
+.view.active {
+    display: block;
+}
+
+.form-container {
+    background-color: #fff;
+    padding: 40px 50px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 420px;
+    margin: 0 auto;
+    text-align: center;
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* --- Buttons and Forms --- */
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.btn:hover {
+    background-color: var(--secondary-color);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    border: 1px solid #fff;
+}
+.btn-secondary:hover {
+    background-color: #fff;
+    color: var(--primary-color);
+}
+
+.user-info .btn-secondary {
+    /* Override .btn styles for a more subtle look in the header */
+    padding: 6px 14px;
+    font-size: 14px;
+    font-weight: normal;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.user-info .btn-secondary svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    stroke-width: 2;
+}
+
+.btn-secondary.active {
+    background-color: #fff;
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.btn-track {
+    padding: 5px 12px;
+    font-size: 14px;
+    background-color: var(--secondary-color);
+    border-radius: 5px;
+}
+
+.btn-track:hover {
+    background-color: var(--primary-color);
+}
+
+/* --- Supplier Dashboard Specifics --- */
+#supplier-dashboard-view {
+    padding: 0;
+}
+
+.app-header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.header-main {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.app-header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.dashboard-content {
+    padding: 30px;
+}
+
+.dashboard-layout {
+    display: flex;
+    gap: 30px;
+}
+
+/* Left Panel: PO List */
+.po-list-panel {
+    flex: 1;
+    min-width: 300px;
+    background-color: var(--light-gray);
+    border-radius: var(--border-radius);
+    padding: 20px;
+}
+
+.po-list-panel h2 {
+    margin-top: 0;
+    color: var(--secondary-color);
+}
+
+.search-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#po-search-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid var(--medium-gray);
+    border-radius: var(--border-radius);
+}
+
+.po-list-container {
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.po-list-item {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: var(--border-radius);
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    border-left: 5px solid var(--medium-gray);
+}
+
+.po-list-item:hover {
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+}
+
+.po-list-item.active {
+    border-left-color: var(--accent-color);
+    font-weight: bold;
+}
+
+/* Right Panel: PO Details */
+.po-details-panel {
+    flex: 2.5;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+
+.placeholder-text {
+    color: #888;
+    text-align: center;
+    font-size: 1.2em;
+    margin-top: 50px;
+}
+
+.po-details-header {
+    border-bottom: 2px solid var(--light-gray);
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.po-items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.po-items-table th, .po-items-table td {
+    padding: 12px;
+    border: 1px solid var(--medium-gray);
+    text-align: left;
+}
+
+.po-items-table th {
+    background-color: var(--light-gray);
+}
+
+.po-items-table tbody tr {
+    cursor: pointer;
+}
+.po-items-table tbody tr:hover {
+    background-color: #e9f2fa;
+}
+
+.client-item-row {
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+/* --- Document Upload Section --- */
+.document-upload-container {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid var(--light-gray);
+    animation: fadeIn 0.5s ease-out; /* Use existing fadeIn animation */
+}
+
+.document-upload-container h4 {
+    margin-top: 0;
+    color: var(--secondary-color);
+}
+
+/* Wrapper to style the file input */
+.file-input-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.btn-upload {
+    /* This class can be added to a button to make it a file input trigger */
+    padding: 10px 20px;
+    border: 1px solid var(--primary-color);
+    border-radius: var(--border-radius);
+    background-color: #fff;
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.file-input-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.file-preview-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background-color: var(--light-gray);
+    border-radius: var(--border-radius);
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.remove-file-btn {
+    background: none; border: none; color: var(--danger-color);
+    font-size: 20px; font-weight: bold; cursor: pointer; padding: 0 5px;
+}
+
+/* Item Tracking Modal */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: var(--border-radius);
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+}
+
+.close-button {
+    position: absolute;
+    top: 15px; right: 20px;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* --- Timeline in Modal --- */
+#tracking-timeline {
+    margin-top: 20px;
+    position: relative;
+    padding-left: 50px; /* Increased space for the timeline */
+}
+
+/* The vertical timeline bar */
+#tracking-timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px; /* Position the line within the new padding */
+    top: 5px;
+    bottom: 5px;
+    width: 4px;
+    background-color: var(--light-gray);
+    border-radius: 2px;
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+/* The circle on the timeline */
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -38px; /* Pull the circle back to be centered on the timeline bar */
+    top: 4px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: var(--medium-gray);
+    border: 4px solid #fff;
+    z-index: 1;
+}
+
+.timeline-item:first-child {
+    /* Animate the newest item in the timeline */
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.timeline-item:first-child::before {
+    background-color: var(--primary-color); /* Highlight the latest status */
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .dashboard-layout {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 768px) {
+    .app-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    .dashboard-content {
+        padding: 15px;
+    }
+}
+
+/* --- Toast Notifications --- */
+#toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast {
+    background-color: var(--secondary-color);
+    color: white;
+    padding: 15px 20px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    animation: slideIn 0.5s ease-out, fadeOut 0.5s ease-in 3.5s forwards;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; transform: translateY(20px); }
+}
+
+/* --- Reporting Module --- */
+.reporting-container {
+    /* Styles moved to be more generic as it's now inside a tab */
+}
+
+.reporting-container h2 {
+    color: var(--secondary-color);
+}
+
+.kpi-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.kpi-card {
+    background-color: var(--light-gray);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    text-align: center;
+}
+
+.kpi-card h4 {
+    margin: 0 0 10px;
+    color: var(--dark-gray);
+}
+
+.kpi-card p {
+    margin: 0;
+    font-size: 2em;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.chart-card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+@media (max-width: 1200px) {
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* --- Supplier Comparison Layout --- */
+.comparison-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Side-by-side layout */
+    gap: 30px;
+    align-items: start;
+    margin-top: 20px;
+}
+
+.comparison-layout .chart-card {
+    margin-bottom: 0; /* Override default margin */
+}
+
+@media (max-width: 992px) {
+    .comparison-layout {
+        grid-template-columns: 1fr; /* Stack on smaller screens */
+    }
+}
+
+/* --- Quality Clearance Workflow --- */
+.quality-clearance-container {
+    margin-top: 30px;
+    padding: 20px;
+    border-top: 2px solid var(--light-gray);
+    background-color: #fcfcfc;
+    border-radius: var(--border-radius);
+    border: 1px solid #e0e0e0;
+}
+
+.quality-clearance-container h4 {
+    margin-top: 0;
+    color: var(--secondary-color);
+}
+
+.quality-status-display {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.quality-status-badge {
+    padding: 5px 12px;
+    border-radius: 15px;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+}
+.quality-status-badge.approved { background-color: var(--success-color); }
+.quality-status-badge.rejected { background-color: var(--danger-color); }
+.quality-status-badge.pending-acceptance { background-color: var(--pending-color); }
+.quality-status-badge.pending-approval { background-color: var(--pending-color); }
+.quality-status-badge.pending { background-color: var(--pending-color); color: var(--dark-gray); }
+
+.feedback-box {
+    background-color: var(--light-gray);
+    border-left: 4px solid var(--accent-color);
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: var(--border-radius);
+}
+
+/* --- PO Details Panel Tabs --- */
+.details-tabs {
+    display: flex;
+    border-bottom: 2px solid var(--light-gray);
+    margin-bottom: 20px;
+}
+
+.details-tab-link {
+    background: none;
+    border: none;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--dark-gray);
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.details-tab-link:hover {
+    color: var(--primary-color);
+}
+
+.details-tab-link.active {
+    color: var(--primary-color);
+    font-weight: bold;
+    border-bottom-color: var(--primary-color);
+}
+
+.details-tab-content {
+    display: none;
+    padding-top: 10px;
+    animation: fadeIn 0.4s ease-in-out; /* Add a nice fade-in effect */
+}
+
+.details-tab-content.active {
+    display: block;
+}
+
+/* --- AI Assistant & Professional Card Styles --- */
+.ai-assistant-card {
+    background: linear-gradient(135deg, #f5f7fa 0%, #eef2f7 100%);
+    border: 1px solid #e0e5ec;
+    border-radius: 12px; /* Softer corners */
+    padding: 25px;
+    margin-top: 25px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease-in-out;
+}
+
+.ai-assistant-card h3 {
+    color: var(--secondary-color);
+    font-size: 1.3em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.ai-assistant-card > p {
+    color: #555;
+    font-size: 0.95em;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.ai-assistant-card .form-group {
+    margin-bottom: 15px;
+}
+
+.ai-assistant-card label {
+    font-weight: 600;
+    color: #333;
+    font-size: 0.9em;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.ai-assistant-card select,
+.ai-assistant-card textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #dbe1e8;
+    border-radius: 8px;
+    background-color: #fff;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.ai-assistant-card select:focus,
+.ai-assistant-card textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 90, 156, 0.15);
+}
+
+.ai-assistant-card .btn {
+    width: 100%;
+    background: linear-gradient(45deg, var(--primary-color), #007dc2);
+    font-weight: bold;
+    padding: 12px;
+    border: none;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.ai-assistant-card .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 90, 156, 0.2);
+}
+
+.ai-summary-box {
+    white-space: pre-wrap;
+    background-color: #ffffff;
+    border: 1px solid #dbe1e8;
+    padding: 15px;
+    border-radius: 8px;
+    min-height: 100px;
+    line-height: 1.6;
+    color: #333;
+    font-size: 0.95em;
+    transition: all 0.3s ease;
+}
+
+/* Accessibility helper */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* --- PO Details Panel Tabs --- */
+.details-tabs {
+    display: flex;
+    border-bottom: 2px solid var(--light-gray);
+    margin-bottom: 20px;
+}
+
+.details-tab-link {
+    background: none;
+    border: none;
+    padding: 12px 20px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--dark-gray);
+    border-bottom: 3px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.details-tab-link:hover {
+    color: var(--primary-color);
+}
+
+.details-tab-link.active {
+    color: var(--primary-color);
+    font-weight: bold;
+    border-bottom-color: var(--primary-color);
+}
+
+.details-tab-content {
+    display: none;
+    padding-top: 10px;
+    animation: fadeIn 0.4s ease-in-out; /* Add a nice fade-in effect */
+}
+
+.details-tab-content.active {
+    display: block;
+}
+
+/* New PO Form Specifics */
+.po-item-entry {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr) auto; /* Item Name, Quantity, Unit Price, Remove Button */
+    gap: 15px;
+    align-items: end;
+    margin-bottom: 15px;
+    padding: 15px;
+    border: 1px solid var(--light-gray);
+    border-radius: var(--border-radius);
+    background-color: #fdfdfd;
+}
+
+.po-item-entry .form-group {
+    margin-bottom: 0; /* Override default form-group margin */
+}
+
+.po-item-entry .btn-danger {
+    padding: 8px 12px;
+    font-size: 0.9em;
+    background-color: var(--danger-color);
+    color: white;
+    border-radius: 5px;
+}
+
+.po-item-entry .btn-danger:hover {
+    background-color: #c82333;
+}
+
+/* Styles for the Create PO Modal */
+#create-po-modal .modal-content {
+    max-width: 700px; /* Wider modal */
+}
+
+#create-po-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive columns */
+    gap: 15px;
+}
+
+#create-po-form .form-group {
+    margin-bottom: 10px;
+}
+
+#create-po-form h3 {
+    color: var(--secondary-color);
+    grid-column: 1 / -1; /* Span all columns */
+    margin-bottom: 15px;
+}
+
+#create-po-form #po-items-container {
+    grid-column: 1 / -1; /* Span all columns */
+}
+
+#create-po-form #add-item-btn {
+    grid-column: 1 / -1; /* Span all columns */
+    margin-top: 10px;
+}
+
+
+
+/* Toast Notifications */
+.toast-info {
+    background-color: var(--secondary-color);
+}
+
+.toast-success {
+    background-color: var(--success-color);
+}
+
+.toast-danger {
+    background-color: var(--danger-color);
+}

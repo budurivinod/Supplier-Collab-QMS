@@ -1,0 +1,25 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Users can only read their own profile, but can be created by anyone who is authenticated.
+    // This allows the registration function to create the user profile document.
+    match /users/{userId} {
+      allow read: if request.auth.uid == userId;
+      allow create: if request.auth.uid != null;
+      allow update: if request.auth.uid == userId; // Allow users to update their own profile
+    }
+
+    // Example: A 'purchaseOrders' collection
+    // We check the user's role from their document in the 'users' collection.
+    match /purchaseOrders/{poId} {
+      // Allow read access to clients and suppliers who are involved in the PO.
+      // This is a more advanced rule and assumes the PO document has 'clientId' and 'supplierId' fields.
+      // allow read: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'client' && resource.data.clientId == request.auth.uid ||
+      //               get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'supplier' && resource.data.supplierId == request.auth.uid;
+
+      // For now, a simpler rule: only suppliers can create/write to purchase orders.
+      allow write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'supplier';
+    }
+  }
+}
