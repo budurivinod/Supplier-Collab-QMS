@@ -872,3 +872,22 @@ body {
 .toast-danger {
     background-color: var(--danger-color);
 }
+
+.btn-update-status {
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: normal;
+    background-color: var(--accent-color);
+    color: var(--secondary-color);
+    border: 1px solid var(--accent-color);
+}
+
+.btn-update-status:hover {
+    background-color: #fdb813c9;
+    border-color: #fdb813c9;
+}
+
+.actions-cell {
+    display: flex;
+    gap: 5px;
+}

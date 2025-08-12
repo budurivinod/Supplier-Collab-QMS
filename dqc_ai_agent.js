@@ -97,6 +97,31 @@ The Supplier Team`;
 **Summary:**
 RFP 2 is significantly more detailed and provides clearer expectations for the supplier. While its timeline is more aggressive, the milestone-based approach reduces risk for both parties. RFP 1's ambiguity in scope and deliverables could lead to disputes later. RFP 2 is more favorable for a supplier who is confident in their technical capabilities and project management.`;
         }
+
+        if (prompt.includes("You are an expert AI Procurement Specialist")) {
+            return `### Top 3 Recommended Vendors for High-Precision Ball Bearings
+
+Here are the top 3 vendors recommended to fulfill your requirement for 10,000 high-precision, Grade 5 ball bearings with a 6-week delivery deadline and ISO 9001 certification:
+
+**1. Global Tech Parts**
+*   **Why they are recommended:**
+    *   **Excellent Quality:** They have a 100% quality approval rate, which is critical for high-precision components.
+    *   **Proven Reliability:** They have the highest number of total POs, indicating a long-standing, reliable relationship.
+    *   **Good On-Time Performance:** Their on-time delivery rate is solid, providing confidence they can meet your 6-week deadline.
+
+**2. Innovate Supplies**
+*   **Why they are recommended:**
+    *   **Perfect On-Time Record:** They have a 100% on-time delivery rate, making them the best choice if the deadline is the absolute most critical factor.
+    *   **Good Quality:** Their quality approval rate is also very high.
+    *   **Good for New/Critical Items:** Their perfect delivery record makes them ideal for new or critical projects where delays are unacceptable.
+
+**3. Advanced Robotics Parts**
+*   **Why they are recommended:**
+    *   **Experienced with Complex Parts:** While their on-time delivery rate is lower, they have a history of handling complex components (e.g., robotic arm assemblies), which may be relevant for high-precision parts.
+    *   **Acceptable Quality:** Their quality record is good, though not perfect.
+    *   **Consider if...** you need a supplier with experience in more complex or specialized mechanical components and are willing to manage the delivery schedule more closely.
+`;
+        }
     },
 
     /**
