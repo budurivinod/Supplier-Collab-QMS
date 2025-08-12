@@ -54,6 +54,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const riskSupplierSelect = document.getElementById('risk-supplier-select');
     const assessRiskBtn = document.getElementById('assess-risk-btn');
     const riskAssessmentSummary = document.getElementById('risk-assessment-summary');
+    // New Vendor Selection elements
+    const findVendorsBtn = document.getElementById('find-vendors-btn');
+    const vendorRequirements = document.getElementById('vendor-requirements');
+    const vendorRecommendations = document.getElementById('vendor-recommendations');
     
     // Elements from the inline script, now consolidated here
     const generateBtn = document.getElementById('generate-message-btn');
@@ -87,6 +91,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const trackingTimeline = document.getElementById('tracking-timeline');
     let comparisonChart = null; // For the comparison tool chart
 
+    // Update Status Modal Elements
+    const updateStatusModal = document.getElementById('update-status-modal');
+    const closeUpdateStatusModalBtn = document.querySelector('.close-update-status-modal-btn');
+    const updateStatusForm = document.getElementById('update-status-form');
+    const updateStatusPoId = document.getElementById('update-status-po-id');
+    const updateStatusItemId = document.getElementById('update-status-item-id');
+    const itemStatusSelect = document.getElementById('item-status-select');
+    const itemRemarks = document.getElementById('item-remarks');
+
+    // Client Update Status Modal Elements
+    const clientUpdateStatusModal = document.getElementById('client-update-status-modal');
+    const closeClientUpdateStatusModalBtn = document.querySelector('.close-client-update-status-modal-btn');
+    const clientUpdateStatusForm = document.getElementById('client-update-status-form');
+    const clientUpdateStatusPoId = document.getElementById('client-update-status-po-id');
+    const clientUpdateStatusItemId = document.getElementById('client-update-status-item-id');
+    const clientItemStatusSelect = document.getElementById('client-item-status-select');
+    const clientItemRemarks = document.getElementById('client-item-remarks');
+
 
     let purchaseOrders = []; // This will be populated from the API
 
@@ -106,16 +128,14 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Persist PO data changes across sessions
-    let dummyPOData = JSON.parse(localStorage.getItem('dummyPOData')) || [
-        // Initial data will be populated if localStorage is empty
-    ];
+    let dummyPOData = JSON.parse(localStorage.getItem('dummyPOData')) || [];
 
     // --- Dummy Database ---
     const initialPOData = [
         { 
             id: "PO-12345", supplierEmail: "supplier@test.com", orderDate: "2024-03-10T00:00:00.000Z", 
             status: "Paid", client: "Global Tech Inc.", 
-            items: [ { id: "ITEM-001", name: "Industrial Grade Sensor", quantity: 50, status: "Delivered", unitPrice: 150 }, { id: "ITEM-002", name: "Mounting Bracket Kit", quantity: 50, status: "Delivered", unitPrice: 25 } ], 
+            items: [ { id: "ITEM-001", name: "Industrial Grade Sensor", quantity: 50, status: "Delivered", unitPrice: 150, remarks: "" }, { id: "ITEM-002", name: "Mounting Bracket Kit", quantity: 50, status: "Delivered", unitPrice: 25, remarks: "" } ], 
             documents: [],
             expectedDeliveryDate: "2024-03-20T00:00:00.000Z",
             actualDeliveryDate: "2024-03-19T00:00:00.000Z", // Delivered early
@@ -127,7 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { 
             id: "PO-67890", supplierEmail: "supplier2@test.com", orderDate: "2024-03-12T00:00:00.000Z", 
             status: "Delivered", client: "Advanced Robotics", 
-            items: [ { id: "ITEM-003", name: "Servo Motor", quantity: 20, status: "Delivered", unitPrice: 80 }, { id: "ITEM-004", name: "Control Board", quantity: 20, status: "Delivered", unitPrice: 120 } ], 
+            items: [ { id: "ITEM-003", name: "Servo Motor", quantity: 20, status: "Delivered", unitPrice: 80, remarks: "" }, { id: "ITEM-004", name: "Control Board", quantity: 20, status: "Delivered", unitPrice: 120, remarks: "" } ], 
             documents: [],
             expectedDeliveryDate: "2024-03-25T00:00:00.000Z",
             actualDeliveryDate: "2024-03-27T00:00:00.000Z", // Delivered late
@@ -138,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { 
             id: "PO-ABCDE", supplierEmail: "supplier@test.com", orderDate: "2024-03-15T00:00:00.000Z", 
             status: "Delivered", client: "Global Tech Inc.", 
-            items: [ { id: "ITEM-005", name: "Power Supply Unit", quantity: 100, status: "Delivered", unitPrice: 45 } ], 
+            items: [ { id: "ITEM-005", name: "Power Supply Unit", quantity: 100, status: "Delivered", unitPrice: 45, remarks: "" } ], 
             documents: [],
             expectedDeliveryDate: "2024-04-01T00:00:00.000Z",
             actualDeliveryDate: "2024-04-01T00:00:00.000Z", // Delivered on time
@@ -149,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { 
             id: "PO-XYZ-01", supplierEmail: "supplier3@test.com", orderDate: "2024-04-02T00:00:00.000Z", 
             status: "Processing", client: "Innovate Solutions", 
-            items: [ { id: "ITEM-006", name: "High-Torque Stepper Motor", quantity: 15, status: "Processing", unitPrice: 95 } ], 
+            items: [ { id: "ITEM-006", name: "High-Torque Stepper Motor", quantity: 15, status: "Processing", unitPrice: 95, remarks: "" } ], 
             documents: [],
             expectedDeliveryDate: "2024-04-20T00:00:00.000Z",
             actualDeliveryDate: null,
@@ -160,7 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { 
             id: "PO-XYZ-02", supplierEmail: "supplier@test.com", orderDate: "2024-04-05T00:00:00.000Z", 
             status: "Shipped", client: "Global Tech Inc.", 
-            items: [ { id: "ITEM-007", name: "FPGA Development Board", quantity: 10, status: "Shipped", unitPrice: 250 } ], 
+            items: [ { id: "ITEM-007", name: "FPGA Development Board", quantity: 10, status: "Shipped", unitPrice: 250, remarks: "" } ], 
             documents: [],
             expectedDeliveryDate: "2024-04-22T00:00:00.000Z",
             actualDeliveryDate: null,
@@ -171,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { 
             id: "PO-LMN-03", supplierEmail: "supplier2@test.com", orderDate: "2024-02-20T00:00:00.000Z", 
             status: "Paid", client: "Advanced Robotics", 
-            items: [ { id: "ITEM-008", name: "Robotic Arm Assembly", quantity: 2, status: "Delivered", unitPrice: 1200 } ], 
+            items: [ { id: "ITEM-008", name: "Robotic Arm Assembly", quantity: 2, status: "Delivered", unitPrice: 1200, remarks: "" } ], 
             documents: [],
             expectedDeliveryDate: "2024-03-15T00:00:00.000Z",
             actualDeliveryDate: "2024-03-14T00:00:00.000Z",
@@ -183,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { 
             id: "PO-LMN-04", supplierEmail: "supplier3@test.com", orderDate: "2024-04-10T00:00:00.000Z", 
             status: "Delivered", client: "Innovate Solutions", 
-            items: [ { id: "ITEM-009", name: "Laser Diode Module", quantity: 100, status: "Delivered", unitPrice: 12 } ], 
+            items: [ { id: "ITEM-009", name: "Laser Diode Module", quantity: 100, status: "Delivered", unitPrice: 12, remarks: "" } ], 
             documents: [],
             expectedDeliveryDate: "2024-04-25T00:00:00.000Z",
             actualDeliveryDate: "2024-04-26T00:00:00.000Z", // Late
@@ -194,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { 
             id: "PO-PQR-05", supplierEmail: "supplier@test.com", orderDate: "2024-01-15T00:00:00.000Z", 
             status: "Paid", client: "Global Tech Inc.", 
-            items: [ { id: "ITEM-010", name: "Rackmount Server Chassis", quantity: 5, status: "Delivered", unitPrice: 350 } ], 
+            items: [ { id: "ITEM-010", name: "Rackmount Server Chassis", quantity: 5, status: "Delivered", unitPrice: 350, remarks: "" } ], 
             documents: [],
             expectedDeliveryDate: "2024-02-01T00:00:00.000Z",
             actualDeliveryDate: "2024-01-30T00:00:00.000Z",
@@ -373,6 +393,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (assessRiskBtn) {
             assessRiskBtn.addEventListener('click', handleRiskAssessment);
         }
+        if (findVendorsBtn) {
+            findVendorsBtn.addEventListener('click', handleVendorSelection);
+        }
     };
 
     const openCreatePoModal = () => {
@@ -452,7 +475,8 @@ document.addEventListener('DOMContentLoaded', () => {
             name: name,
             quantity: itemQuantities[index],
             unitPrice: itemUnitPrices[index],
-            status: 'Pending Acceptance'
+            status: 'Pending Acceptance',
+            remarks: ''
         }));
 
         const newPO = {
@@ -543,6 +567,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${item.quantity}</td>
                 <td>${item.unitPrice}</td>
                 <td>${item.status}</td>
+                <td>${item.remarks || ''}</td>
+                <td>
+                    <div class="actions-cell">
+                        <button class="btn btn-update-status" data-po-id="${po.id}" data-item-id="${item.id}">Update Status</button>
+                    </div>
+                </td>
             </tr>
         `).join('');
 
@@ -553,15 +583,68 @@ document.addEventListener('DOMContentLoaded', () => {
             <div class="po-details-header">
                 <h3>Details for ${po.id}</h3>
                 <p><strong>Supplier:</strong> ${supplierName} | <strong>Client:</strong> ${po.client} | <strong>Order Date:</strong> ${new Date(po.orderDate).toLocaleDateString()} | <strong>Expected Delivery:</strong> ${new Date(po.expectedDeliveryDate).toLocaleDateString()}</p>
-                <p><strong>Overall Status:</strong> ${po.status}</p>
             </div>
             <table class="po-items-table">
                 <thead>
-                    <tr><th>Item ID</th><th>Item Name</th><th>Quantity</th><th>Unit Price</th><th>Current Status</th></tr>
+                    <tr><th>Item ID</th><th>Item Name</th><th>Quantity</th><th>Unit Price</th><th>Current Status</th><th>Remarks</th><th>Actions</th></tr>
                 </thead>
                 <tbody>${itemsHtml}</tbody>
             </table>
         `;
+
+        // Add event listeners to the new update status buttons
+        clientPoDetailsContent.querySelectorAll('.btn-update-status').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const poId = e.target.dataset.poId;
+                const itemId = e.target.dataset.itemId;
+                openClientUpdateStatusModal(poId, itemId);
+            });
+        });
+    };
+
+    const openClientUpdateStatusModal = (poId, itemId) => {
+        clientUpdateStatusPoId.value = poId;
+        clientUpdateStatusItemId.value = itemId;
+        const po = dummyPOData.find(p => p.id === poId);
+        const item = po.items.find(i => i.id === itemId);
+        clientItemStatusSelect.value = item.status;
+        clientItemRemarks.value = item.remarks || '';
+        clientUpdateStatusModal.style.display = 'flex';
+    };
+
+    const closeClientUpdateStatusModal = () => {
+        clientUpdateStatusModal.style.display = 'none';
+    };
+
+    const handleClientStatusUpdate = (e) => {
+        e.preventDefault();
+        const poId = clientUpdateStatusPoId.value;
+        const itemId = clientUpdateStatusItemId.value;
+        const newStatus = clientItemStatusSelect.value;
+        const newRemarks = clientItemRemarks.value;
+
+        const po = dummyPOData.find(p => p.id === poId);
+        const item = po.items.find(i => i.id === itemId);
+
+        if (item) {
+            item.status = newStatus;
+            item.remarks = newRemarks;
+            localStorage.setItem('dummyPOData', JSON.stringify(dummyPOData));
+            showToast(`Status for item ${itemId} updated to ${newStatus}.`);
+            closeClientUpdateStatusModal();
+            displayClientPODetails(poId);
+
+            // Also refresh supplier view if it's active
+            const supplierDashboardActive = supplierDashboardView.classList.contains('active');
+            if (supplierDashboardActive) {
+                renderPOList();
+                // If the updated PO was being displayed, refresh the details too
+                const activePO = document.querySelector('#po-list .po-list-item.active');
+                if (activePO && activePO.dataset.poId === poId) {
+                    displayPODetails(poId);
+                }
+            }
+        }
     };
 
     const populateComparisonSelectors = () => {
@@ -901,6 +984,70 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    async function handleVendorSelection() {
+        const requirements = vendorRequirements.value.trim();
+        if (!requirements) {
+            alert('Please describe your requirements for the product or service.');
+            return;
+        }
+
+        findVendorsBtn.disabled = true;
+        findVendorsBtn.textContent = 'Analyzing...';
+        vendorRecommendations.innerHTML = 'AI is analyzing your requirements and historical supplier data to find the best vendors...';
+
+        // 1. Get all unique suppliers
+        const supplierEmails = [...new Set(dummyPOData.map(po => po.supplierEmail))];
+
+        // 2. Gather performance data for all of them
+        let allSupplierData = [];
+        for (const email of supplierEmails) {
+            const performanceData = getSupplierPerformanceData(email);
+            const supplierUser = usersDB.find(u => u.email === email);
+            const supplierName = supplierUser ? supplierUser.name : email;
+            allSupplierData.push({ name: supplierName, ...performanceData });
+        }
+
+        // 3. Format the supplier data for the prompt
+        const supplierDataForPrompt = allSupplierData.map(s => `
+            - Supplier: ${s.name}
+              - On-Time Delivery Rate: ${s.onTimeRate.toFixed(1)}%
+              - Quality Approval Rate: ${s.approvalRate.toFixed(1)}%
+              - Total POs: ${s.totalPOs}
+              - Total Business Value: ${s.totalValue.toLocaleString()}
+        `).join('');
+
+        // 4. Create the prompt
+        const prompt = `
+            You are an expert AI Procurement Specialist. Your task is to recommend the best-suited vendors for a new sourcing requirement based on the client's needs and the historical performance of the available suppliers.
+
+            **Client's Sourcing Requirement:**
+            "${requirements}"
+
+            **Available Suppliers and their Historical Performance Data:**
+            ${supplierDataForPrompt}
+
+            **Your Task:**
+            1.  Analyze the client's requirements carefully.
+            2.  Evaluate each supplier against these requirements, considering their on-time delivery, quality scores, and overall experience (total POs).
+            3.  Provide a ranked list of the **Top 3** recommended suppliers.
+            4.  For each recommended supplier, provide a clear, concise justification explaining **why** they are a good fit for this specific requirement, directly referencing their performance data.
+            5.  If a supplier is a particularly poor fit, you may also briefly mention why they were not chosen.
+
+            Format your response clearly with headings for each recommended supplier.
+        `;
+
+        try {
+            const recommendations = await AIAgent._callAIProxy(prompt);
+            vendorRecommendations.innerHTML = recommendations;
+        } catch (error) {
+            console.error("AI Vendor Selection Error:", error);
+            vendorRecommendations.textContent = 'An error occurred while communicating with the AI service. Please try again.';
+        } finally {
+            findVendorsBtn.disabled = false;
+            findVendorsBtn.textContent = 'Find Best Vendors';
+        }
+    }
+
     const resetDashboard = () => {
         poSearchInput.value = '';
         renderPOList();
@@ -1088,7 +1235,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     <td>${item.name}</td>
                     <td>${item.quantity}</td>
                     <td>${item.status}</td>
-                    <td><button class="btn btn-track" data-item-id="${item.id}" data-item-name="${item.name}">Track</button></td>
+                    <td>${item.remarks || ''}</td>
+                    <td>
+                        <div class="actions-cell">
+                            <button class="btn btn-track" data-item-id="${item.id}" data-item-name="${item.name}">Track</button>
+                            <button class="btn btn-update-status" data-po-id="${po.id}" data-item-id="${item.id}">Update Status</button>
+                        </div>
+                    </td>
                 </tr>
             `;
         }).join('');
@@ -1096,12 +1249,12 @@ document.addEventListener('DOMContentLoaded', () => {
         poDetailsContent.innerHTML = `
             <div class="po-details-header">
                 <h3>Details for ${po.id}</h3>
-                <p><strong>Client:</strong> ${po.client} | <strong>Date:</strong> ${new Date(po.orderDate).toLocaleDateString()} | <strong>Overall Status:</strong> ${po.status}</p>
+                <p><strong>Client:</strong> ${po.client} | <strong>Date:</strong> ${new Date(po.orderDate).toLocaleDateString()}</p>
                 ${actionButtons}
             </div>
             <table class="po-items-table">
                 <thead>
-                    <tr><th>Item ID</th><th>Item Name</th><th>Quantity</th><th>Current Status</th><th>Actions</th></tr>
+                    <tr><th>Item ID</th><th>Item Name</th><th>Quantity</th><th>Current Status</th><th>Remarks</th><th>Actions</th></tr>
                 </thead>
                 <tbody>${itemsHtml}</tbody>
             </table>
@@ -1118,8 +1271,62 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
+        // Add event listeners to the new update status buttons
+        poDetailsContent.querySelectorAll('.btn-update-status').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const poId = e.target.dataset.poId;
+                const itemId = e.target.dataset.itemId;
+                openUpdateStatusModal(poId, itemId);
+            });
+        });
+
         // Render the quality clearance workflow section
         renderQualityClearanceWorkflow(po);
+    };
+
+    const openUpdateStatusModal = (poId, itemId) => {
+        updateStatusPoId.value = poId;
+        updateStatusItemId.value = itemId;
+        const po = dummyPOData.find(p => p.id === poId);
+        const item = po.items.find(i => i.id === itemId);
+        itemStatusSelect.value = item.status;
+        itemRemarks.value = item.remarks || '';
+        updateStatusModal.style.display = 'flex';
+    };
+
+    const closeUpdateStatusModal = () => {
+        updateStatusModal.style.display = 'none';
+    };
+
+    const handleStatusUpdate = (e) => {
+        e.preventDefault();
+        const poId = updateStatusPoId.value;
+        const itemId = updateStatusItemId.value;
+        const newStatus = itemStatusSelect.value;
+        const newRemarks = itemRemarks.value;
+
+        const po = dummyPOData.find(p => p.id === poId);
+        const item = po.items.find(i => i.id === itemId);
+
+        if (item) {
+            item.status = newStatus;
+            item.remarks = newRemarks;
+            localStorage.setItem('dummyPOData', JSON.stringify(dummyPOData));
+            showToast(`Status for item ${itemId} updated to ${newStatus}.`);
+            closeUpdateStatusModal();
+            displayPODetails(poId);
+
+            // Also refresh client view if it's active
+            const clientDashboardActive = clientDashboardView.classList.contains('active');
+            if (clientDashboardActive) {
+                renderAllPOsForClient();
+                // If the updated PO was being displayed, refresh the details too
+                const activeClientPO = document.querySelector('#client-po-list .po-list-item.active');
+                if (activeClientPO && activeClientPO.dataset.poId === poId) {
+                    displayClientPODetails(poId);
+                }
+            }
+        }
     };
 
     const renderTrackingTimeline = (itemId) => {
@@ -1481,6 +1688,13 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             showView('login-view');
         });
+
+        // --- Modal Event Listeners ---
+        closeUpdateStatusModalBtn.addEventListener('click', closeUpdateStatusModal);
+        updateStatusForm.addEventListener('submit', handleStatusUpdate);
+
+        closeClientUpdateStatusModalBtn.addEventListener('click', closeClientUpdateStatusModal);
+        clientUpdateStatusForm.addEventListener('submit', handleClientStatusUpdate);
 
         checkLoginState();
     };

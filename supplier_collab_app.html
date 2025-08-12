@@ -247,6 +247,7 @@
                         <button class="details-tab-link" data-client-tab="supplier-comparison-tab">Supplier Comparison</button>
                         <button class="details-tab-link" data-client-tab="ai-rfp-tab">AI RFP Comparison</button>
                         <button class="details-tab-link" data-client-tab="ai-risk-tab">AI Risk Assessment</button>
+                        <button class="details-tab-link" data-client-tab="ai-vendor-selection-tab">AI Vendor Selection</button>
                     </div>
                     <div id="ai-analyst-tab" class="details-tab-content active">
                         <!-- AI Supplier Performance Analyst -->
@@ -333,6 +334,24 @@
                                 <label for="risk-assessment-summary">Risk Assessment Report</label>
                                 <div id="risk-assessment-summary" class="ai-summary-box">
                                     Select a supplier and click "Assess" to see the AI-generated risk report.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="ai-vendor-selection-tab" class="details-tab-content">
+                        <!-- AI Vendor Selection Tool -->
+                        <div id="ai-vendor-selection" class="ai-assistant-card">
+                            <h3>🤖 AI Vendor Selection</h3>
+                            <p>Describe your requirements for a new product or service, and the AI will recommend the best-suited vendors from your existing supplier base.</p>
+                            <div class="form-group">
+                                <label for="vendor-requirements">Product/Service Requirements</label>
+                                <textarea id="vendor-requirements" rows="4" placeholder="e.g., 'Need 10,000 high-precision ball bearings, Grade 5, with a delivery deadline of 6 weeks. Must have ISO 9001 certification.'"></textarea>
+                            </div>
+                            <button id="find-vendors-btn" class="btn">Find Best Vendors</button>
+                            <div class="form-group" style="margin-top: 15px;">
+                                <label for="vendor-recommendations">AI-Powered Vendor Recommendations</label>
+                                <div id="vendor-recommendations" class="ai-summary-box">
+                                    Enter your requirements and click the button to see AI-generated vendor recommendations.
                                 </div>
                             </div>
                         </div>
@@ -440,7 +459,63 @@
             </div>
         </div>
 
-    </div>
+        <!-- Update Status Modal -->
+        <div id="update-status-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-update-status-modal-btn close-button">&times;</span>
+                <h2>Update Item Status</h2>
+                <form id="update-status-form">
+                    <input type="hidden" id="update-status-po-id">
+                    <input type="hidden" id="update-status-item-id">
+                    <div class="form-group">
+                        <label for="item-status-select">Status</label>
+                        <select id="item-status-select" required>
+                            <option value="Order Received">Order Received</option>
+                            <option value="Order Processing">Order Processing</option>
+                            <option value="Manufacturing">Manufacturing</option>
+                            <option value="Ready for Dispatch">Ready for Dispatch</option>
+                            <option value="Shipped to Warehouse / Distribution Center">Shipped to Warehouse / Distribution Center</option>
+                            <option value="Dispatched">Dispatched</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="item-remarks">Remarks</label>
+                        <textarea id="item-remarks" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn">Save Status</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Client Update Status Modal -->
+        <div id="client-update-status-modal" class="modal">
+            <div class="modal-content">
+                <span class="close-client-update-status-modal-btn close-button">&times;</span>
+                <h2>Update Item Status</h2>
+                <form id="client-update-status-form">
+                    <input type="hidden" id="client-update-status-po-id">
+                    <input type="hidden" id="client-update-status-item-id">
+                    <div class="form-group">
+                        <label for="client-item-status-select">Status</label>
+                        <select id="client-item-status-select" required>
+                            <option value="Material recived">Material recived</option>
+                            <option value="Quality clearance">Quality clearance</option>
+                            <option value="GRN Created">GRN Created</option>
+                            <option value="invoice submitted">invoice submitted</option>
+                            <option value="payment processing">payment processing</option>
+                            <option value="Payment done">Payment done</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="client-item-remarks">Remarks</label>
+                        <textarea id="client-item-remarks" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn">Save Status</button>
+                </form>
+            </div>
+        </div>
+
+     </div>
 
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
